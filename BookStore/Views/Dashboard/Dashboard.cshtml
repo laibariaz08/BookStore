@@ -1,0 +1,122 @@
+﻿@using BookStore.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dash Board</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://stachpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/js/site.js" />
+    <style>
+                               #filterSidebar {
+                                    height: 100%;
+                                    width: 0;
+                                    position: fixed;
+                                    top: 0;
+                                    right: 0;
+                                    background-color: #f8f9fa;
+                                    overflow-x: hidden;
+                                    transition: 0.5s;
+                                    padding-top: 60px;
+                                    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+                                    z-index: 1;
+                                }
+
+                                #filterSidebar a {
+                                    padding: 8px 8px 8px 32px;
+                                    text-decoration: none;
+                                    font-size: 20px;
+                                    color: #111;
+                                    display: block;
+                                    transition: 0.3s;
+                                }
+
+                                #filterSidebar .closebtn {
+                                    position: absolute;
+                                    top: 0;
+                                    right: 25px;
+                                    font-size: 36px;
+                                }
+
+                            .filter-button {
+                                cursor: pointer;
+                                font-size: 18px;
+                                padding: 10px;
+                                margin: 10px;
+                                padding-left: 130px;
+                            }
+
+        .navbar {
+            height: 100px;
+        }
+    </style>
+</head>
+<Partial name="_PartialView.cshtml" />
+<body style="font-size: medium;">
+
+    <span class="filter-button" onclick="openFilter()">&#9776; Filter</span>
+
+    <div id="filterSidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeFilter()">&times;</a>
+        <h4 class="pl-4">Filter Options</h4>
+        <a href="#">Availability</a>
+        <a href="#">Brand</a>
+        <a href="#">Size</a>
+        <a href="#">Condition</a>
+        <a href="#">Binding</a>
+    </div>
+
+    <div class="container mt-4" id="noDisplay">
+        @foreach (var book in Model.books)
+        {
+            <div class="col-6 col-md-6 col-lg-3 mb-4 ms-n1">
+                <div class="card h-70 bg-light" style="width: 25rem; cursor:pointer;">
+                    <img src="@book.Picture" alt="@book.Title" class="card-img-top img-fluid" style="height:280px;"><br>
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        @if (book.Stock == 0)
+                        {
+                            <p class="card-text">@book.Price.ToString("0.00")$ <span style="padding-left:10px;">Out of stock</span></p>
+                        }
+                        else
+                        {
+                            <p class="card-text">@book.Price.ToString("0.00")$</p>
+                        }
+                        <form action="/Dashboard/Dashboard" method="post">
+                            <input type="hidden" name="BookId" value="@book.Id" />
+                            <input type="hidden" name="BookTitle" value="@book.Title" />
+                            <input type="hidden" name="Price" value="@book.Price" />
+                            <input type="hidden" name="Picture" value="@book.Picture" />
+                            <label for="Qty_@book.Title" id="Qty_@book.Title">Qty:</label>
+                            <input type="number" id="Qty_@book.Title" name="Quantity" placeholder="0" style="width: 40px;" max="@book.Stock" required />
+                            <button type="submit" class="btn btn-dark mt-2"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div id="partialPlaceHolder" style="display:none" class="container mt-4"></div>
+    <script>
+        function openFilter() {
+            document.getElementById("filterSidebar").style.width = "250px";
+        }
+
+        function closeFilter() {
+            document.getElementById("filterSidebar").style.width = "0";
+        }
+        
+        
+
+    </script>
+</body>
+</html>
+
+

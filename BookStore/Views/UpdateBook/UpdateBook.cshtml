@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Book</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Update Book</h1>
+        <form method="post" action="/UpdateCategory/UpdateBook" enctype="multipart/form-data">
+
+            <!-- Dropdown to select a book -->
+            <div class="form-group">
+                <label for="bookId">Select Book:</label>
+                <select class="form-control" id="bookId" name="bookId">
+                    @foreach (var book in Model.Books)
+                    {
+                        <option value="@book.Id">@book.Title (@book.Id)</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Enter New Title</label>
+                <input type="text" class="form-control" id="title" name="Title" placeholder="Enter New Title">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Enter New Description</label>
+                <textarea class="form-control" id="description" name="Description" placeholder="Enter New Description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Enter New Price</label>
+                <input type="number" step="0.01" class="form-control" id="price" name="Price" placeholder="Enter New Price">
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Enter New Stock</label>
+                <input type="number" class="form-control" id="stock" name="Stock" placeholder="Enter New Stock">
+            </div>
+
+            <div class="form-group">
+                <label for="picture">Upload New Picture</label>
+                <input type="file" class="form-control-file" id="picture" name="xyz">
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Select New Genre</label>
+                <select class="form-control" id="genre" name="Genre_Name">
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <option value="@genre.Name">@genre.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="author">Enter New Author Name</label>
+                <input type="text" class="form-control" id="author" name="Author_name" placeholder="Enter New Author Name">
+            </div>
+
+            <button type="submit" class="btn btn-dark">UPDATE</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

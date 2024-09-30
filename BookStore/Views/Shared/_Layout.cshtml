@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication4</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js"/>
+    <style>
+        .navbar-custom {
+            background-color: #f8f9fa; /* Soft light grey for a clean look */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+        }
+
+        .navbar-brand-custom {
+            font-size: 45px; /* Larger font size for the title */
+            font-family: 'Playfair Display', serif; /* Elegant font */
+            text-align: center; /* Center align the text */
+            margin-left: auto;
+            margin-right: auto;
+            flex-grow: 1; /* Allows the title to take up available space */
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 20px;
+            color: #343a40; /* Dark grey instead of pure black for better readability */
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: #007bff; /* Change color on hover */
+            }
+
+        .navbar-custom .cart-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Styling for the search bar */
+        .form-inline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-control-custom {
+            border-radius: 20px;
+            border: 1px solid #ced4da;
+            padding: 5px 15px;
+            width: 250px; /* Width of the search bar */
+        }
+
+        .search-button {
+            background-color: #007bff;
+            color: white;
+            border-radius: 20px;
+            border: none;
+            padding: 5px 15px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom py-3">
+        <div class="container-fluid">
+            <div class="navbar-brand navbar-brand-custom text-center" style="font-size:50px;">A Book Nook</div>
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                </ul>
+
+                <!-- Search bar form -->
+                <form class="form-inline" method="get" asp-action="Search">
+                    <input class="form-control form-control-custom" type="text" placeholder="Search for books" aria-label="Search" name="query" id="textData">
+                    <button class="btn search-button" type="submit" id="btn">Search</button>
+                </form>
+
+                <ul class="navbar-nav">
+                    <partial name="_LoginPartial" />
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Cart">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/shopping-cart.png" alt="Cart" class="cart-icon">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="body">
+        @RenderBody()
+    </div>
+    <div id="partialPlaceHolder" style="display:none" class="container mt-4"></div>
+    <script>
+        $(document).ready(function () {
+            $('#btn').click(function (event) {
+                event.preventDefault();
+
+                var data = $('#textData').val();
+
+                $.get('/Dashboard/Search', { inputData: data }, function (result) {
+                    $('#body').hide();
+                    $('#partialPlaceHolder').html(result).show(); 
+                });
+            });
+        });
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

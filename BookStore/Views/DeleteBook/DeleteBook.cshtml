@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Book</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -29,14 +30,14 @@
                     <tr>
                         <td>@book.Id</td>
                         <td>@book.Title</td>
-                        <td>@book.genre_Name</td> 
+                        <td>@book.genre_Name</td>
                         <td>
                             <img src="@book.Picture" alt="@book.Title" width="100" height="100">
                         </td>
                         <td>
-                            <form asp-action="DeleteBook" asp-controller="DeleteBook" method="post">
+                            <form class="delete-form">
                                 <input type="hidden" name="id" value="@book.Id" />
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="button" class="btn btn-danger" onclick="deleteBook(this)">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -45,7 +46,25 @@
         </table>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script type="text/javascript">
+        function deleteBook(button) {
+            var form = $(button).closest('form');
+            var formData = form.serialize(); 
+
+            $.ajax({
+                type: 'POST',
+                url: '/DeleteBook/DeleteBook',  
+                data: formData,
+                success: function (result) {
+                    $('body').html(result);
+                },
+                error: function () {
+                    alert('Failed to delete the book.');
+                }
+            });
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

@@ -26,7 +26,7 @@ namespace BookStore.Controllers
             
             repoB.Delete(ID);
             List<Books> books = repoB.GetAll();
-            return View(books);
+            return View("DeleteBook",books);
         }
     }
 }

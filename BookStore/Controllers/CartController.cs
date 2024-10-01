@@ -8,15 +8,24 @@ using System.Security.Claims;
 using BookStore.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using Microsoft.AspNetCore.Identity;
 namespace BookStore.Controllers
 {
     public class CartController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IRepository<Order> repoO;
+        private readonly IRepository<OrderDetails> repoOD;
+        public CartController(UserManager<IdentityUser> userManager, IRepository<Order> repoO, IRepository<OrderDetails> repoOD) 
+        {
+            _userManager = userManager;
+            this.repoO = repoO;
+            this.repoOD = repoOD;
+        }
         public IActionResult Cart()
         {
             try
             {
-                // Retrieve cart items from session
                 List<Books> cart = new List<Books>();
                 string cartJson = HttpContext.Session.GetString("Cart");
                 if (!string.IsNullOrEmpty(cartJson))
@@ -71,11 +80,10 @@ namespace BookStore.Controllers
                 cart = JsonConvert.DeserializeObject<List<Books>>(cartJson);
             }
 
-            // Pass cart items to the view
             return View(cart);
         }
 
-        public ViewResult Thankyou()
+        public ViewResult Thankyou(String StreetAddress, String State, String City, String PostalCode)
         {
             List<Books> cart = new List<Books>();
             string cartJson = HttpContext.Session.GetString("Cart");
@@ -83,11 +91,38 @@ namespace BookStore.Controllers
             {
                 cart = JsonConvert.DeserializeObject<List<Books>>(cartJson);
             }
+            decimal total = 0;
+            foreach (var book in cart)
+            {
+                total = total +( book.Stock * book.Price);
+                OrderDetails details = new OrderDetails()
+                {
+                    BookID = book.Id,
+                    Quantity = book.Stock,
+                    Price = book.Price
+                };
+                repoOD.Add(details);
+            }
+            Order order = new Order()
+            {
+                U_Id = _userManager.GetUserId(User),
+                OrderDate = DateTime.Now,
+                StreetAddress = StreetAddress,
+                State = State,
+                City = City,
+                PostalCode = PostalCode,
+                TotalAmount = total
+            };
+            repoO.Add(order);
+            List<Order> orders = new List<Order>();
+            orders = repoO.GetAll();
+            foreach (var o in orders)
+            {
 
-            // Clear the cart after checkout
+            }
+
             HttpContext.Session.Remove("Cart");
 
-            // Pass cart items to the view
             return View(cart);
         }
 

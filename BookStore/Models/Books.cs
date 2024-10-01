@@ -28,9 +28,9 @@ namespace BookStore.Models
             set { description = value; }
         }
 
-        private float price;
+        private decimal price;
 
-        public float Price
+        public decimal Price
         {
             get { return price; }
             set { price = value; }

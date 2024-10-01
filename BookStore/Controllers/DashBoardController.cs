@@ -70,24 +70,15 @@ namespace BookStore.Controllers
             BookGenre BG = new BookGenre();
             BG.books = repo.GetAll().ToList();
             BG.genres = repo_category.GetAll().ToList();
-            foreach (var boh in BG.books)
-            {
-                if (BoohId == boh.Id)
-                {
-                    boh.Stock -= b.Stock;//temporarily subtracting the stoch of booh being added to cart,nit oding it in Database table because booh is not being ordered yet
-                    break;
-                }
-            }
             return View(BG);
         }
 
 
-        //public ActionResult DetailProduct(int id)
-        //{
-        //    Books book = repo.GetById(id);
-        //    book.genre = repo_category.GetById(book.Genre_id);
-        //    return View(book);
-        //}
+        public ActionResult DetailProduct(int id)
+        {
+            Books book = repo.GetById(id);
+            return View(book);
+        }
 
         public IActionResult Search(string inputData)
         {

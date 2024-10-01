@@ -25,6 +25,10 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSingleton<IRepository<Books>, GenericRepository<Books>>();
 builder.Services.AddSingleton<IRepository<Genres>, GenericRepository<Genres>>();
+builder.Services.AddSingleton<IRepository<Order>, GenericRepository<Order>>();
+builder.Services.AddSingleton<IRepository<OrderDetails>, GenericRepository<OrderDetails>>();
+
+
 builder.Services.AddSession(o => o.IdleTimeout = TimeSpan.FromMinutes(2));
 var app = builder.Build();
 

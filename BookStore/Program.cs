@@ -25,7 +25,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSingleton<IRepository<Books>, GenericRepository<Books>>();
 builder.Services.AddSingleton<IRepository<Genres>, GenericRepository<Genres>>();
-builder.Services.AddSingleton<IRepository<Order>, GenericRepository<Order>>();
+builder.Services.AddSingleton<IRepository<Orders>, GenericRepository<Orders>>();
 builder.Services.AddSingleton<IRepository<OrderDetails>, GenericRepository<OrderDetails>>();
 
 

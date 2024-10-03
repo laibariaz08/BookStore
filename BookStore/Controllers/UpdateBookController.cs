@@ -31,7 +31,7 @@ namespace BookStore.Controllers
             return View(bookGenre);
         }
         [HttpPost]
-        public ActionResult UpdateBook(int bookId, string Title, string Description, float Price, int Stock, string Author_name, string Genre_Name, IFormFile xyz)
+        public ActionResult UpdateBook(int bookId, string Title, string Description, decimal Price, int Stock, string Author_name, string Genre_Name, IFormFile xyz)
         {
             string wwwFolder = Env.WebRootPath;
             string path = Path.Combine(wwwFolder, "UploadedImages");

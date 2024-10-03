@@ -5,9 +5,15 @@ using System;
 
 namespace BookStore.Models
 {
-    public class Order
+    public class Orders
     {
-        public int id { get; set; }
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
         public string U_Id { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }

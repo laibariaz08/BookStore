@@ -1,12 +1,6 @@
-﻿@* @{
+﻿@{
     decimal total = 0;
 }
-
-
-
-
-
-@model List<Product>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,10 +111,10 @@
                 @foreach (var product in Model)
                 {
                     <div class="row row-main">
-                        <div class="col-3"> <img class="img-fluid" src="@product.ImageUrl"> </div>
+                        <div class="col-3"> <img class="img-fluid" src="@product.Picture"> </div>
                         <div class="col-6">
                             <div class="row d-flex">
-                                <p><b>@product.name</b></p>
+                                <p><b>@product.Title</b></p>
                             </div>
 
                         </div>
@@ -131,10 +125,10 @@
                     <div class="row row-main">
                         <div class="col-9"> <!-- Empty column to maintain alignment --> </div>
                         <div class="col-3 d-flex justify-content-end">
-                            <p>Quantity: @product.stock</p>
+                            <p>Quantity: @product.Stock</p>
                         </div>
                     </div>
-                    { total += product.Price * product.stock; }
+                    { total += product.Price * product.Stock; }
                 }
                 <hr>
                 <div class="total">
@@ -151,4 +145,4 @@
         </div>
     </div>
 </body>
-</html> *@
+</html>

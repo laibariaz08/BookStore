@@ -6,7 +6,13 @@ namespace BookStore.Models
 {
     public class OrderDetails
     {
-        public int id { get; set; }
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
         public int OrderID { get; set; }
         public int BookID {  get; set; }
         public int Quantity { get; set; }

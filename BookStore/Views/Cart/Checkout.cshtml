@@ -102,13 +102,13 @@
             }
             @foreach (var product in Model)
             {
-                var subtotal = product.Price * product.stock;
+                var subtotal = product.Price * product.Stock;
                 <div class="item">
                     <div><img src="@product.Picture" alt="@product.Title"></div>
                     <div class="item-details">
                         <div>@product.Title</div>
                         <div>Price: $@product.Price</div>
-                        <div>Stock: @product.stock</div>
+                        <div>Stock: @product.Stock</div>
                     </div>
                     <div>@subtotal</div>
                 </div>

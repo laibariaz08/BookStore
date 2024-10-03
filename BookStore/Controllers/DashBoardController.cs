@@ -25,7 +25,7 @@ namespace BookStore.Controllers
         }
 
         [HttpPost]
-        public ViewResult Dashboard(int BoohId, string BoohTitle, float Price, string Picture, int Quantity)
+        public ViewResult Dashboard(int BoohId, string BoohTitle, decimal Price, string Picture, int Quantity)
         {
             bool f = false;
             Books b = new Books();

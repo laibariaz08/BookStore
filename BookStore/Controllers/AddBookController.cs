@@ -32,7 +32,7 @@ namespace BookStore.Controllers
 
 
         [HttpPost]
-        public ActionResult AddBook(string Title, string genre_name, float Price, string Description, int Stock, string Author, IFormFile xyz)
+        public ActionResult AddBook(string Title, string genre_name, decimal Price, string Description, int Stock, string Author, IFormFile xyz)
         {
             Books book  = new Books();
             book.Title = Title;

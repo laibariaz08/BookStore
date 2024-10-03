@@ -13,10 +13,10 @@ namespace BookStore.Controllers
 {
     public class CartController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IRepository<Order> repoO;
+        private readonly UserManager<UpdatedUser> _userManager;
+        private readonly IRepository<Orders> repoO;
         private readonly IRepository<OrderDetails> repoOD;
-        public CartController(UserManager<IdentityUser> userManager, IRepository<Order> repoO, IRepository<OrderDetails> repoOD) 
+        public CartController(UserManager<UpdatedUser> userManager, IRepository<Orders> repoO, IRepository<OrderDetails> repoOD) 
         {
             _userManager = userManager;
             this.repoO = repoO;
@@ -95,15 +95,8 @@ namespace BookStore.Controllers
             foreach (var book in cart)
             {
                 total = total +( book.Stock * book.Price);
-                OrderDetails details = new OrderDetails()
-                {
-                    BookID = book.Id,
-                    Quantity = book.Stock,
-                    Price = book.Price
-                };
-                repoOD.Add(details);
             }
-            Order order = new Order()
+            Orders order = new Orders()
             {
                 U_Id = _userManager.GetUserId(User),
                 OrderDate = DateTime.Now,
@@ -114,13 +107,24 @@ namespace BookStore.Controllers
                 TotalAmount = total
             };
             repoO.Add(order);
-            List<Order> orders = new List<Order>();
+            List<Orders> orders = new List<Orders>();
             orders = repoO.GetAll();
+            var id = 0;
             foreach (var o in orders)
             {
-
+                id=o.Id;
             }
-
+            foreach (var book in cart)
+            {
+                OrderDetails details = new OrderDetails()
+                {
+                    OrderID = id,
+                    BookID = book.Id,
+                    Quantity = book.Stock,
+                    Price = book.Price
+                };
+                repoOD.Add(details);
+            }
             HttpContext.Session.Remove("Cart");
 
             return View(cart);

@@ -129,18 +129,18 @@
                     }
                     @foreach (var product in Model)
                     {
-                        var subtotal = product.Price * product.stock;
+                        var subtotal = product.Price * product.Stock;
                         total += subtotal;
                         <tr>
                             <td>
-                                <img src="@product.ImageUrl" alt="@product.name" class="item-img">
-                                @product.name
+                                <img src="@product.Picture" alt="@product.Title" class="item-img">
+                                @product.Title
                             </td>
                             <td>Rs. @product.Price</td>
                             <td>
-                                <input type="number" id="qty-@product.name" name="quantities[@product.name]" value="@product.stock" min="1" style="width: 60px;" class="form-control d-inline" onchange="updateQuantity('@product.name', @product.Price)">
+                                <input type="number" id="qty-@product.Title" name="quantities[@product.Title]" value="@product.Stock" min="1" style="width: 60px;" class="form-control d-inline" onchange="updateQuantity('@product.Title', @product.Price)">
                             </td>
-                            <td id="subtotal-@product.name" class="subtotal">Rs. @subtotal</td>
+                            <td id="subtotal-@product.Title" class="subtotal">Rs. @subtotal</td>
                         </tr>
                     }
                 </tbody>

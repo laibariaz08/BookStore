@@ -63,11 +63,10 @@
         }
 
         .btn-dark {
-            font-size:18px;
+            font-size:20px;
             background-color: #343a40;
             color: #fff;
             transition: background-color 0.3s ease;
-            width:210px;
         }
 
             .btn-dark:hover {
@@ -97,7 +96,7 @@
                 <div class="card h-70 bg-light" style="width: 25rem; cursor:pointer;">
                     <img src="@book.Picture" alt="@book.Title" class="card-img-top img-fluid" style="height:280px;"><br>
                     <div class="card-body">
-                        <b><h3 class="card-title">@book.Title</h3></b>
+                        <h5 class="card-title">@book.Title</h5>
                         @if (book.Stock == 0)
                         {
                             <p class="card-text">@book.Price.ToString("0.00")$ <span style="padding-left:10px;">Out of stock</span></p>
@@ -112,8 +111,8 @@
                             <input type="hidden" name="Price" value="@book.Price" />
                             <input type="hidden" name="Picture" value="@book.Picture" />
                             <label for="Qty_@book.Title" id="Qty_@book.Title">Qty:</label>
-                            <input type="number" id="Qty_@book.Title" name="Quantity" placeholder="0" style="width: 40px;" max="@book.Stock" required /><br /><br />
-                            <button type="submit" class="btn btn-dark mt-2"><i class="fas fa-shopping-cart"></i> Add to Cart</button><br />
+                            <input type="number" id="Qty_@book.Title" name="Quantity" placeholder="0" style="width: 40px;" max="@book.Stock" required /><br />
+                            <button type="submit" class="btn btn-dark mt-2"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
                         </form>
                     </div>
                 </div>

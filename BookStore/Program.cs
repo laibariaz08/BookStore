@@ -6,6 +6,7 @@ using BookStore.Data;
 using Microsoft.Extensions.DependencyInjection;
 using static System.Reflection.Metadata.BlobBuilder;
 using BookStore.Models;
+using BookStore.Hubs;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -27,7 +28,7 @@ builder.Services.AddSingleton<IRepository<Books>, GenericRepository<Books>>();
 builder.Services.AddSingleton<IRepository<Genres>, GenericRepository<Genres>>();
 builder.Services.AddSingleton<IRepository<Orders>, GenericRepository<Orders>>();
 builder.Services.AddSingleton<IRepository<OrderDetails>, GenericRepository<OrderDetails>>();
-
+builder.Services.AddSignalR();
 
 builder.Services.AddSession(o => o.IdleTimeout = TimeSpan.FromMinutes(2));
 var app = builder.Build();
@@ -54,6 +55,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-
+app.MapHub<SalesHub>("/SalesHub");
 
 app.Run();

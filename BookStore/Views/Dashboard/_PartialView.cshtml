@@ -1,10 +1,19 @@
-﻿<div class="container mt-4">
-    <div class="alert alert-success">
-        <h4>Special Discounts!</h4>
-        <ul>
-            <li>Get 20% off on selected books this week!</li>
-            <li>Buy 2, get 1 free on all novels!</li>
-            <li>Sign up for our newsletter and get an additional 10% discount on your next purchase!</li>
-        </ul>
-    </div>
+﻿<div class="container mt-4" id="salesNotification">
 </div>
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script>
+    $(function () {
+        // Start SignalR connection
+        var connection = new signalR.HubConnectionBuilder().withUrl("/SalesHub").build();
+        
+        // Function to handle the notification
+        connection.on('ReceiveSalesNotification', function (message) {
+            $('#salesNotification').html('<div class="alert alert-success">' + message + '</div>');
+        });
+
+        connection.start().done(function () {
+            console.log('User connected to SignalR');
+        });
+    });
+</script>

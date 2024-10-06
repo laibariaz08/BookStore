@@ -70,6 +70,23 @@
             .button:hover {
                 background-color: #3b3b3b;
             }
+
+        .sales-details {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
     </style>
 </head>
 <body>
@@ -86,6 +103,41 @@
                 <a asp-area="" asp-controller="DeleteCategory" asp-action="DeleteCategory" class="button">Remove Genre</a>
             </div>
         </div>
+
+        <!-- Sales notification form -->
+        <div class="sales-details">
+            <input type="text" id="salesMessage" class="input" placeholder="Enter sales details" />
+            <button id="sendButton" class="button">Send Notification</button>
+        </div>
     </div>
 </body>
 </html>
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script>
+    // Create SignalR connection
+    var connection = new signalR.HubConnectionBuilder().withUrl("/SalesHub").build();
+
+    // Disable send button until connection is established
+    document.getElementById("sendButton").disabled = true;
+
+    // Start SignalR connection
+    connection.start().then(function () {
+        document.getElementById("sendButton").disabled = false;
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    // Event handler for the send button click
+    document.getElementById("sendButton").addEventListener("click", function (event) {
+        var salesMessage = document.getElementById("salesMessage").value;
+        if (salesMessage) {
+            connection.invoke("SalesNotification", salesMessage).catch(function (err) {
+                return console.error(err.toString());
+            });
+        } else {
+            alert("Please enter sales details.");
+        }
+        event.preventDefault();
+    });
+</script>

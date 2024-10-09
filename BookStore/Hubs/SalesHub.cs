@@ -6,7 +6,7 @@ namespace BookStore.Hubs
     {
         public async Task SalesNotification(String sales)
         {
-            await Clients.All.SendAsync("ReceiveSalesNotification", sales);
+            await Clients.Others.SendAsync("ReceiveSalesNotification", sales);
         }
     }
 }

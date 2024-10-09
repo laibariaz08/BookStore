@@ -1,6 +1,6 @@
 ﻿@using BookStore.Models
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_layout.cshtml";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -74,8 +74,8 @@
             }
     </style>
 </head>
-<Partial name="_PartialView.cshtml" />
 <body style="font-size: medium;">
+    <Partial name="_PartialView.cshtml" />
 
     <span class="filter-button" onclick="openFilter()">&#9776; Filter</span>
 
@@ -120,6 +120,9 @@
         }
     </div>
     <div id="partialPlaceHolder" style="display:none" class="container mt-4"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
     <script>
         function openFilter() {
             document.getElementById("filterSidebar").style.width = "250px";
@@ -128,9 +131,35 @@
         function closeFilter() {
             document.getElementById("filterSidebar").style.width = "0";
         }
-        
-        
+    </script>
+    <script>
+        $(document).ready(function () {
+            // SignalR setup here
+            var connection = new signalR.HubConnectionBuilder().withUrl("/SalesHub").build();
+            // Disable send button until connection is established
+            alert("helo");
+            connection.on('ReceiveSalesNotification', function (message) {
+                $('#salesNotification').html('<div class="alert alert-success">' + message + '</div>');
+            });
 
+            connection.start().then(function () {
+                document.getElementById("sendButton").disabled = false;
+            }).catch(function (err) {
+                console.error(err.toString());
+            });
+
+            document.getElementById("sendButton").addEventListener("click", function (event) {
+                var salesMessage = document.getElementById("salesMessage").value;
+                if (salesMessage) {
+                    connection.invoke("SalesNotification", salesMessage).catch(function (err) {
+                        return console.error(err.toString());
+                    });
+                } else {
+                    alert("Please enter sales details.");
+                }
+                event.preventDefault();
+            });
+        });
     </script>
 </body>
 </html>

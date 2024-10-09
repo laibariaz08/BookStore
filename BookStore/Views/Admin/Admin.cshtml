@@ -120,14 +120,16 @@
 
     // Disable send button until connection is established
     document.getElementById("sendButton").disabled = true;
-
+    connection.on('ReceiveSalesNotification', function (message) {
+        $('#salesNotification').html('<div class="alert alert-success">' + message + '</div>');
+    });
     // Start SignalR connection
     connection.start().then(function () {
         document.getElementById("sendButton").disabled = false;
     }).catch(function (err) {
         return console.error(err.toString());
     });
-
+    ``
     // Event handler for the send button click
     document.getElementById("sendButton").addEventListener("click", function (event) {
         var salesMessage = document.getElementById("salesMessage").value;

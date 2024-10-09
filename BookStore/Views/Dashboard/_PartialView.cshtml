@@ -1,19 +1,37 @@
 ﻿<div class="container mt-4" id="salesNotification">
 </div>
 
-<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+@* <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script>
     $(function () {
+        // Log to ensure the script is running
+        console.log("Starting SignalR connection...");
+
         // Start SignalR connection
         var connection = new signalR.HubConnectionBuilder().withUrl("/SalesHub").build();
-        
+
         // Function to handle the notification
         connection.on('ReceiveSalesNotification', function (message) {
             $('#salesNotification').html('<div class="alert alert-success">' + message + '</div>');
         });
 
-        connection.start().done(function () {
-            console.log('User connected to SignalR');
+        // Start the connection
+        connection.start()
+            .then(function () {
+                console.log('Connection to SignalR established');
+                $('#salesNotification').html('<div class="alert alert-info">Connected to sales notifications</div>');
+            })
+            .catch(function (err) {
+                console.error('SignalR connection failed:', err);
+                $('#salesNotification').html('<div class="alert alert-danger">Failed to connect to sales notifications: ' + err + '</div>');
+            });
+
+        // Log for checking the current connection state
+        connection.onclose(function (err) {
+            console.log('Connection closed. Error: ', err);
+            $('#salesNotification').html('<div class="alert alert-danger">Connection lost. Please try reconnecting.</div>');
         });
     });
-</script>
+</script> *@
+
+

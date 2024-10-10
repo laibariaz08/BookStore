@@ -25,7 +25,7 @@ namespace BookStore.Controllers
         }
 
         [HttpPost]
-        public ViewResult Dashboard(int BoohId, string BoohTitle, decimal Price, string Picture, int Quantity)
+        public ViewResult Dashboard(int BookId, string BookTitle, decimal Price, string Picture, int Quantity)
         {
             bool f = false;
             Books b = new Books();
@@ -43,7 +43,7 @@ namespace BookStore.Controllers
             }
             for (int i = 0; i < cart.Count; i++)
             {
-                if (cart[i].Id == BoohId)
+                if (cart[i].Id == BookId)
                 {
                     cart[i].Stock += Quantity;//While adding product in cart i am using stoch for the quantity of that product because there is no attribute to in products table for quantity and we have to store the quantity of product ordered so i am using Stoch for this.
                     b = cart[i];
@@ -57,8 +57,8 @@ namespace BookStore.Controllers
             {
                 b = new Books
                 {
-                    Id = BoohId,
-                    Title = BoohTitle,
+                    Id = BookId,
+                    Title = BookTitle,
                     Price = Price,
                     Stock = Quantity,
                     Picture = Picture

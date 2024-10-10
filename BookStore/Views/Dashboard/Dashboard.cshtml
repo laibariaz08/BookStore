@@ -1,6 +1,9 @@
 ﻿@using BookStore.Models
 @{
-    Layout = "/Views/Shared/_layout.cshtml";
+    Layout = null;
+}
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/myCustomStyles.css"   />
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -10,48 +13,103 @@
     <title>Dash Board</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="https://stachpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/Dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/Dashboard.css">
     <link rel="stylesheet" href="~/js/site.js" />
+    <link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" />
+
     <style>
-                               #filterSidebar {
-                                    height: 100%;
-                                    width: 0;
-                                    position: fixed;
-                                    top: 0;
-                                    right: 0;
-                                    background-color: #f8f9fa;
-                                    overflow-x: hidden;
-                                    transition: 0.5s;
-                                    padding-top: 60px;
-                                    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-                                    z-index: 1;
-                                }
+        .navbar-custom {
+            background-color: #f8f9fa; /* Soft light grey for a clean look */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+        }
 
-                                #filterSidebar a {
-                                    padding: 8px 8px 8px 32px;
-                                    text-decoration: none;
-                                    font-size: 20px;
-                                    color: #111;
-                                    display: block;
-                                    transition: 0.3s;
-                                }
+        .navbar-brand-custom {
+            font-size: 45px; /* Larger font size for the title */
+            font-family: 'Playfair Display', serif; /* Elegant font */
+            text-align: center; /* Center align the text */
+            margin-left: auto;
+            margin-right: auto;
+            flex-grow: 1; /* Allows the title to take up available space */
+        }
 
-                                #filterSidebar .closebtn {
-                                    position: absolute;
-                                    top: 0;
-                                    right: 25px;
-                                    font-size: 36px;
-                                }
+        .navbar-nav .nav-link {
+            font-size: 20px;
+            color: #343a40; /* Dark grey instead of pure black for better readability */
+        }
 
-                            .filter-button {
-                                cursor: pointer;
-                                font-size: 18px;
-                                padding: 10px;
-                                margin: 10px;
-                                padding-left: 130px;
-                            }
+            .navbar-nav .nav-link:hover {
+                color: #007bff; /* Change color on hover */
+            }
+
+        .navbar-custom .cart-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Styling for the search bar */
+        .form-inline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-control-custom {
+            border-radius: 20px;
+            border: 1px solid #ced4da;
+            padding: 5px 15px;
+            width: 250px; /* Width of the search bar */
+        }
+
+        .search-button {
+            background-color: #007bff;
+            color: white;
+            border-radius: 20px;
+            border: none;
+            padding: 5px 15px;
+            margin-left: 5px;
+        }
+        #filterSidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+            z-index: 1;
+            background-color: #f8f9fa;
+        }
+
+        #filterSidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #111;
+            display: block;
+            transition: 0.3s;        
+        }
+
+        #filterSidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+        }
+
+        .filter-button {
+            cursor: pointer;
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+            padding-left: 130px;
+        }
+
+
 
         .navbar {
             height: 100px;
@@ -75,9 +133,39 @@
     </style>
 </head>
 <body style="font-size: medium;">
-    <Partial name="_PartialView.cshtml" />
+    <nav class="navbar navbar-expand-lg navbar-custom py-3">
+        <div class="container-fluid">
+            <div class="navbar-brand navbar-brand-custom text-center" style="font-size:50px;">A Book Nook</div>
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                </ul>
 
-    <span class="filter-button" onclick="openFilter()">&#9776; Filter</span>
+                <!-- Search bar form -->
+                <form class="form-inline" method="get" asp-action="Search">
+                    <input class="form-control form-control-custom" type="text" placeholder="Search for books" aria-label="Search" name="query" id="textData">
+                    <button class="btn search-button" type="submit" id="btn">Search</button>
+                </form>
+
+                <ul class="navbar-nav">
+                    <partial name="_LoginPartial" />
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Cart">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/shopping-cart.png" alt="Cart" class="cart-icon">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-4" id="salesNotification">
+    </div>
+
+@*     <span class="filter-button" onclick="openFilter()">&#9776; Filter</span>
 
     <div id="filterSidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeFilter()">&times;</a>
@@ -87,9 +175,9 @@
         <a href="#">Size</a>
         <a href="#">Condition</a>
         <a href="#">Binding</a>
-    </div>
+    </div> *@
 
-    <div class="container mt-4" id="noDisplay">
+    <div class="container mt-4" id="main">
         @foreach (var book in Model.books)
         {
             <div class="col-6 col-md-6 col-lg-3 mb-4 ms-n1">
@@ -106,20 +194,21 @@
                             <p class="card-text">@book.Price.ToString("0.00")$</p>
                         }
                         <form action="/Dashboard/Dashboard" method="post">
-                            <input type="hidden" name="BoohId" value="@book.Id" />
-                            <input type="hidden" name="BoohTitle" value="@book.Title" />
-                            <input type="hidden" name="Price" value="@book.Price" />
-                            <input type="hidden" name="Picture" value="@book.Picture" />
-                            <label for="Qty_@book.Title" id="Qty_@book.Title">Qty:</label>
-                            <input type="number" id="Qty_@book.Title" name="Quantity" placeholder="0" style="width: 40px;" max="@book.Stock" required /><br />
-                            <button type="submit" class="btn btn-dark mt-2"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <input type="hidden" name="BoohId" id="Id" value="@book.Id" />
+                            <input type="hidden" name="BoohTitle" id="title" value="@book.Title" />
+                            <input type="hidden" name="Price" id="price" value="@book.Price" />
+                            <input type="hidden" name="Picture" id="picture" value="@book.Picture" />
+                            <label for="quantity" id="Qty_@book.Title">Qty:</label>
+                            <input type="number" id="quantity" name="Quantity" placeholder="0" style="width: 40px;" max="@book.Stock" required /><br />
+                            <button type="submit" class="btn btn-dark mt-2"><i class="fas fa-shopping-cart" id="cartbtn"></i> Add to Cart</button>
                         </form>
                     </div>
                 </div>
             </div>
         }
     </div>
-    <div id="partialPlaceHolder" style="display:none" class="container mt-4"></div>
+    <div class="container mt-4" id="noDisplay" style="display:none"></div>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
@@ -132,12 +221,46 @@
             document.getElementById("filterSidebar").style.width = "0";
         }
     </script>
+
+
+                                                 @*     Ajax Add to Cart Script     *@
+    <script>
+        $(document).ready(function () {
+            $('.btn-dark').click(function (event) {
+                event.preventDefault();
+
+                // Use $(this) to get the context of the button that was clicked
+                var $card = $(this).closest('.card'); // Get the closest card
+                var id = $card.find('input[name="BoohId"]').val();
+                var title = $card.find('input[name="BoohTitle"]').val();
+                var price = $card.find('input[name="Price"]').val();
+                var picture = $card.find('input[name="Picture"]').val();
+                var quantity = $card.find('input[name="Quantity"]').val();
+
+                $.post('/Dashboard/Dashboard',
+                    {
+                        BookId: id,
+                        BookTitle: title,
+                        Price: price,
+                        Picture: picture,
+                        Quantity: quantity
+                    },
+                    function (result) {
+                        // Handle success or failure here if needed
+                    });
+            });
+        });
+    </script>
+
+
+
+
+
+                                        @*     SignalR Script     *@ 
     <script>
         $(document).ready(function () {
             // SignalR setup here
             var connection = new signalR.HubConnectionBuilder().withUrl("/SalesHub").build();
-            // Disable send button until connection is established
-            alert("helo");
             connection.on('ReceiveSalesNotification', function (message) {
                 $('#salesNotification').html('<div class="alert alert-success">' + message + '</div>');
             });
@@ -159,9 +282,10 @@
                 }
                 event.preventDefault();
             });
-        });
+        });                                           
     </script>
+
+
 </body>
 </html>
-
 

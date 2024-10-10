@@ -34,6 +34,7 @@ namespace BookStore.Controllers
         [HttpPost]
         public ActionResult AddBook(string Title, string genre_name, decimal Price, string Description, int Stock, string Author, IFormFile xyz)
         {
+            Console.WriteLine("In AddBook Controller");
             Books book  = new Books();
             book.Title = Title;
             book.Price = Price;
@@ -60,7 +61,7 @@ namespace BookStore.Controllers
             repoB.Add(book);
             List<Genres> g = new List<Genres>();
             g = repoG.GetAll().ToList();
-            return RedirectToAction("Admin","Admin");
+            return View(g);
         }
 
     }

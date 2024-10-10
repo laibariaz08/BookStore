@@ -23,34 +23,34 @@
     </style>
 </head>
 <body style="font-size: medium; padding-top:60px; ">
-@foreach (var book in Model)
-{
-            <div class="col-6 col-md-6 col-lg-3 mb-4 ms-n1">
-                <div class="card h-70 bg-light" style="width: 25rem; cursor:pointer;">
-                    <img src="@book.Picture" alt="@book.Title" class="card-img-top img-fluid" style="height:280px;"><br>
-                    <div class="card-body">
-                        <h5 class="card-title">@book.Title</h5>
-                        @if (book.Stock == 0)
-                        {
-                            <p class="card-text">@book.Price.ToString("0.00")$ <span style="padding-left:10px;">Out of stock</span></p>
-                        }
-                        else
-                        {
-                            <p class="card-text">@book.Price.ToString("0.00")$</p>
-                        }
-                        <form action="/Dashboard/Dashboard" method="post">
-                            <input type="hidden" name="BookId" value="@book.Id" />
-                            <input type="hidden" name="BookTitle" value="@book.Title" />
-                            <input type="hidden" name="Price" value="@book.Price" />
-                            <input type="hidden" name="Picture" value="@book.Picture" />
-                            <label for="Qty_@book.Title" id="Qty_@book.Title">Qty:</label>
-                            <input type="number" id="Qty_@book.Title" name="Quantity" placeholder="0" style="width: 40px;" max="@book.Stock" required />
-                            <button type="submit" class="btn btn-dark mt-2"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
-                        </form>
-                    </div>
+    @foreach (var book in Model)
+    {
+        <div class="col-6 col-md-6 col-lg-3 mb-4 ms-n1">
+            <div class="card h-70 bg-light" style="width: 25rem; cursor:pointer;">
+                <img src="@book.Picture" alt="@book.Title" class="card-img-top img-fluid" style="height:280px;"><br>
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    @if (book.Stock == 0)
+                    {
+                        <p class="card-text">@book.Price.ToString("0.00")$ <span style="padding-left:10px;">Out of stock</span></p>
+                    }
+                    else
+                    {
+                        <p class="card-text">@book.Price.ToString("0.00")$</p>
+                    }
+                    <form action="/Dashboard/Dashboard" method="post">
+                        <input type="hidden" name="BoohId" id="Id" value="@book.Id" />
+                        <input type="hidden" name="BoohTitle" id="title" value="@book.Title" />
+                        <input type="hidden" name="Price" id="price" value="@book.Price" />
+                        <input type="hidden" name="Picture" id="picture" value="@book.Picture" />
+                        <label for="quantity" id="Qty_@book.Title">Qty:</label>
+                        <input type="number" id="quantity" name="Quantity" placeholder="0" style="width: 40px;" max="@book.Stock" required /><br />
+                        <button type="submit" class="btn btn-dark mt-2"><i class="fas fa-shopping-cart" id="cartbtn"></i> Add to Cart</button>
+                    </form>
                 </div>
             </div>
-}
+        </div>
+    }
 </body>
 </html>
 
